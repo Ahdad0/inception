@@ -4,7 +4,7 @@ DIR=/var/www/html
 
 echo "Waiting for MariaDB to be ready..."
 
-until mariadb -h ma -u abdo -paaaa -e "SELECT 1;" >/dev/null 2>&1; do
+until mariadb -h maria -u abdo -paaaa -e "SELECT 1;" >/dev/null 2>&1; do
     echo -n "."; sleep 2
 done
 

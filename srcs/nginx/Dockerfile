@@ -1,4 +1,4 @@
-FROM	debian:bullseye
+FROM    debian:bullseye
 
 RUN apt-get update && apt-get install -y \
     nginx \
@@ -11,6 +11,6 @@ RUN openssl req -x509 -nodes \
     -out /etc/nginx/ssl/inception.crt \
     -subj "/C=MA/ST=BG/L=1337/O=42/OU=42/CN=abahaded.42.fr/UID=abahaded"
 
-COPY nginx.conf /etc/nginx/http.d/nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 CMD ["nginx", "-g", "daemon off;"]
