@@ -1,12 +1,8 @@
-FROM alpine:latest
+FROM	debian:bullseye
 
-RUN apk add --no-cache \
-    mariadb \
-    mariadb-client
+RUN		apt update -y && apt install mariadb-server -y
 
-RUN sed -i "s/skip-networking/#skip-networking/" /etc/my.cnf.d/mariadb-server.cnf
-
-RUN sed -i "s/#bind-address=0.0.0.0/bind-address = 0.0.0.0/" /etc/my.cnf.d/mariadb-server.cnf
+COPY	50-server.conf	/etc/mysql/mariadb.conf.d/50-server.cnf
 
 COPY setup.sh /tmp/setup.sh
 

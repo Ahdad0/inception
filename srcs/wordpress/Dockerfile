@@ -1,18 +1,19 @@
-FROM alpine:latest
+FROM	debian:bullseye
 
-RUN apk add --no-cache \
-    php83-fpm \
-    php83-mysqli \
-    php83-json \
-    php83-mbstring \
-    curl \
-    mariadb-client \
-    sed
+RUN     apt update -y && apt install -y wget \
+        php php-fpm php-mysql mariadb-client
 
-RUN sed -i "s/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/" /etc/php83/php-fpm.d/www.conf
+RUN     wget https://wordpress.org/wordpress-6.8.1.tar.gz -P /var/www && \
+        cd /var/www && tar -xzf wordpress-6.8.1.tar.gz && \
+        rm wordpress-6.8.1.tar.gz && chmod -R 755 /var/www/wordpress
 
-COPY setup.sh /tmp/setup.sh
+COPY 	www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
-RUN chmod u+x /tmp/setup.sh
+RUN     wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+        chmod 755 wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+
+COPY    setup.sh /tmp/setup.sh
+
+RUN     chmod u+x /tmp/setup.sh
 
 CMD [ "/tmp/setup.sh" ]

@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+
+  mariadb:
+    build: ./srcs/mariadb
+    container_name: ma
+    env_file:
+      - .env
+    volumes:
+      -  /home/abahaded/data/db:/var/lib/mysql
+    networks:
+      - inception
+    restart: always
+
+  wordpress:
+    build: ./srcs/wordpress
+    container_name: wo
+    depends_on:
+      - mariadb
+    env_file:
+      - .env
+    volumes:
+      - /home/abahaded/data/wp:/var/www/wordpress
+    networks:
+      - inception
+    restart: always
+
+  nginx:
+    build: ./srcs/nginx
+    container_name: nginx
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    env_file:
+      - .env
+    volumes:
+      - /home/abahaded/data/wp:/var/www/wordpress
+    networks:
+      - inception
+    restart: always
+
+networks:
+  inception:
+    driver: bridge
