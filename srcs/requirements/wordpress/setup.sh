@@ -25,7 +25,7 @@ if [ ! -f "$DIR/wp-config.php" ]; then
                     --path=$DIR
 
 
-    wp core install --url=localhost \
+    wp core install --url="https://$DOMAIN_NAME" \
                     --title="Inception" \
                     --admin_user=$ADMIN_USER \
                     --admin_password=$ADMIN_PASSWORD \
@@ -34,8 +34,8 @@ if [ ! -f "$DIR/wp-config.php" ]; then
                     --path=$DIR
 
     wp user create --allow-root \
-                    'subscriber' 'subscriber@example.com' \
-                    --user_pass='password456' \
+                    $USER $USER_EMAIL \
+                    --user_pass=$USER_PASSWORD \
                     --role='author' \
                     --path=$DIR
     

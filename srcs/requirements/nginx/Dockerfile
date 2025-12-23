@@ -9,7 +9,8 @@ RUN mkdir -p /etc/nginx/ssl
 RUN openssl req -x509 -nodes \
     -keyout /etc/nginx/ssl/inception.key \
     -out /etc/nginx/ssl/inception.crt \
-    -subj "/C=MA/ST=BG/L=1337/O=42/OU=42/CN=abahaded.42.fr/UID=abahaded"
+    -subj "/C=MA/ST=BG/L=1337/O=42/OU=42/CN=abahaded.42.fr/UID=abahaded" \
+    -addext "subjectAltName=DNS:abahaded.42.fr"
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
