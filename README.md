@@ -17,6 +17,7 @@ A Docker infrastructure project that sets up Nginx, WordPress, and MariaDB in se
 * [Nginx](https://nginx.org/)
 * [WordPress](https://wordpress.org/)
 * [MariaDB](https://mariadb.com/)
+
 ## AI Usage
 AI was used for documentation, debugging tips, and configuration examples. All content was reviewed and tested.
 
@@ -28,12 +29,13 @@ make logs
 ```
 
 Access:
-* Add to hosts: 127.0.0.1 abdo.42.fr
-* Visit: https://abdo.42.fr
-* Admin: https://abdo.42.fr/wp-admin (user: wpuser)
+* Add to hosts: `127.0.0.1 abahaded.42.fr`
+* Visit: https://abahaded.42.fr
+* Admin: https://abahaded.42.fr/wp-admin (user: wpuser)
 
-commands:
-```make build    # Build images
+## Commands
+```bash
+make build    # Build images
 make up       # Start services
 make stop     # Stop services
 make down     # Stop & remove
@@ -44,19 +46,15 @@ make start    # Start stopped services
 ```
 
 ## Project Overview
-Docker vs Virtual Machines
 
+### Docker vs Virtual Machines
 Docker is lightweight and fast (seconds to start), VMs are heavy (minutes to start). We use Docker for efficiency.
 
-Secrets vs Environment Variables
+### Environment Variables
+Stored in `.env`, contains all configuration (DB credentials, admin user, domain name, etc.). Never commit to Git.
 
-* **Secrets** (passwords): Stored in secrets/ folder, hidden from logs
-* **Environment variables** (config): Stored in .env, visible but non-sensitive
+### Docker Network vs Host Network
+We use a custom `inception` network so services communicate privately and securely (not exposed to host).
 
-Docker Network vs Host Network
-
-We use a custom inception network so services communicate privately and securely (not exposed to host).
-
-Docker Volumes vs Bind Mounts
-
-We use bind mounts to /home/abdo/data/ so data is directly accessible on the host.
+### Docker Volumes vs Bind Mounts
+We use bind mounts to `/home/abahaded/data/` so data is directly accessible on the host.

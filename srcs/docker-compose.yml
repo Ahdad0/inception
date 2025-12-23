@@ -41,6 +41,16 @@ services:
       - inception
     restart: always
 
+  redis:
+    container_name: redis
+    build: ./requirements/bonus/redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - inception
+
 networks:
   inception:
     driver: bridge

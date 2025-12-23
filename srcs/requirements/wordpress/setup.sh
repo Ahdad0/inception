@@ -39,11 +39,22 @@ if [ ! -f "$DIR/wp-config.php" ]; then
                     --role='author' \
                     --path=$DIR
     
+    echo "Configuring Redis Cache..."
+    
+    wp config set WP_REDIS_HOST redis --allow-root --path=$DIR
+    
+    wp config set WP_REDIS_PORT 6379 --allow-root --path=$DIR
+    
+    wp plugin install redis-cache --activate --allow-root --path=$DIR
+    
+    wp redis enable --allow-root --path=$DIR
+
     echo "WordPress configured."
 else
     echo "WordPress already configured."
 fi
-
+chown -R www-data:www-data /var/www/wordpress
+chmod -R 755 /var/www/wordpress
 mkdir -p /run/php
 echo "Starting PHP-FPM..."
 exec php-fpm7.4 -F
