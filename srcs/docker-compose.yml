@@ -51,6 +51,50 @@ services:
     networks:
       - inception
 
+  ftp:
+    build: ./requirements/bonus/vsftpd
+    container_name: ftp
+    restart: always
+    env_file: ../.env
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110" 
+    volumes:
+      - /home/abahaded/data/wp:/var/www/wordpress
+    networks:
+      - inception
+
+  adminer:
+    build: ./requirements/bonus/adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - inception
+
+  website:
+    build: ./requirements/bonus/website
+    container_name: website
+    restart: always
+    ports:
+      - "8000:8000"
+    networks:
+      - inception
+
+  portainer:
+    build: ./requirements/bonus/portainer
+    container_name: portainer
+    restart: always
+    ports:
+      - "9443:9443"
+    volumes:
+      # The "Eye": Lets Portainer see your Docker system
+      - /var/run/docker.sock:/var/run/docker.sock
+      # The "Brain": Saves your admin password/settings so they aren't lost on restart
+      - /home/abahaded/data/portainer_data:/data
+    networks:
+      - inception
 networks:
   inception:
     driver: bridge
